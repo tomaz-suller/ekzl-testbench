@@ -1,0 +1,10 @@
+# ezkl
+ezkl
+# onnx
+numpy
+protobuf==3.16.0
+onnx
+# Keras (with PyTorch backend)
+keras
+# Jupyter notebooks
+ipykernel
