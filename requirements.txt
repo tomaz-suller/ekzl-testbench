@@ -6,5 +6,6 @@ protobuf==3.16.0
 onnx
 # Keras (with PyTorch backend)
 keras
+torchinfo
 # Jupyter notebooks
 ipykernel
