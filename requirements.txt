@@ -9,3 +9,5 @@ keras
 torchinfo
 # Jupyter notebooks
 ipykernel
+# Configuration management
+hydra-core
