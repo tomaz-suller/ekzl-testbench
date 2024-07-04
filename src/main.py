@@ -1,6 +1,8 @@
 import asyncio
-import json
 from dataclasses import dataclass, asdict, field
+import json
+import logging
+from typing import Union
 
 import hydra
 from hydra.core.config_store import ConfigStore
@@ -19,7 +21,7 @@ class Visibility:
 
 @dataclass
 class EzklConfig:
-    models: list[str]
+    models: Union[list[str], None] = None
     visibility: Visibility = field(default_factory=Visibility)
     generate_calibration_data: bool = False
     generate_inference_data: bool = False
@@ -41,7 +43,7 @@ async def main(cfg: EzklConfig) -> None:
     models = [
         Model(attributes.model_name, attributes.input_shape)
         for attributes in ModelAttributes
-        if attributes.model_name in cfg.models
+        if cfg.models is None or attributes.model_name in cfg.models
     ]
     for model in models:
         log.info(f"Processing model {model.name}")
