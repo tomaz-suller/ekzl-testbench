@@ -25,7 +25,9 @@ class EzklConfig:
     generate_inference_data: bool = False
     export: bool = False
     calibrate: bool = False
+    calibration_samples: int = 20
     generate: bool = True
+    inference_samples: int = 1
     verify: bool = False
 
 
@@ -42,10 +44,14 @@ async def main(cfg: EzklConfig) -> None:
     for model in models:
         if cfg.generate_calibration_data:
             with model.paths.calibration_data.open("w") as f:
-                json.dump(random_input_data(20, *model.input_shape), f)
+                json.dump(
+                    random_input_data(cfg.calibration_samples, *model.input_shape), f
+                )
         if cfg.generate_inference_data:
             with model.paths.inference_data.open("w") as f:
-                json.dump(random_input_data(1, *model.input_shape), f)
+                json.dump(
+                    random_input_data(cfg.inference_samples, *model.input_shape), f
+                )
 
         if cfg.export:
             export(model)
