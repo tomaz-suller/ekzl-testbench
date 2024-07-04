@@ -2,7 +2,9 @@ import asyncio
 from dataclasses import dataclass, asdict, field
 import json
 import logging
-from typing import Union
+from time import process_time_ns
+from datetime import datetime
+from typing import Any, Union
 
 import hydra
 from hydra.core.config_store import ConfigStore
@@ -47,6 +49,7 @@ async def main(cfg: EzklConfig) -> None:
     ]
     for model in models:
         log.info(f"Processing model {model.name}")
+        metrics: dict[str, Any] = {"timestamp": str(datetime.now())}
 
         if cfg.generate_calibration_data:
             with model.paths.calibration_data.open("w") as f:
@@ -60,14 +63,35 @@ async def main(cfg: EzklConfig) -> None:
                 )
 
         if cfg.export:
+            start = process_time_ns()
             export(model)
+            export_time = process_time_ns() - start
+            metrics["export_time"] = export_time
 
         if cfg.calibrate:
+            start = process_time_ns()
             await calibrate_settings(model.paths, asdict(cfg.visibility))
+            calibration_time = process_time_ns() - start
+            metrics["calibration_time"] = calibration_time
         if cfg.generate:
+            start = process_time_ns()
             await generate_proof(model.paths)
+            generation_time = process_time_ns() - start
+            metrics["generation_time"] = generation_time
         if cfg.verify:
+            start = process_time_ns()
             verify_proof(model.paths)
+            verification_time = process_time_ns() - start
+            metrics["verification_time"] = verification_time
+
+        metrics_path = model.paths.metrics
+        old_metrics = []
+        if metrics_path.exists():
+            with metrics_path.open("r") as f:
+                old_metrics = json.load(f)
+        old_metrics.append(metrics)
+        with metrics_path.open("w") as f:
+            json.dump(old_metrics, f)
 
 
 @hydra.main(version_base=None, config_name="config")

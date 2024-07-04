@@ -36,6 +36,7 @@ class ModelPaths:
     verifier_key: Path = field(init=False)
     prover_key: Path = field(init=False)
     proof: Path = field(init=False)
+    metrics: Path = field(init=False)
 
     def __post_init__(self, name: str, root: Union[Path, None]):
         root = root or REPO_ROOT
@@ -53,6 +54,7 @@ class ModelPaths:
         self.verifier_key = output_dir / "vk"
         self.prover_key = output_dir / "pk"
         self.proof = output_dir / "proof"
+        self.metrics = output_dir / "metrics.json"
 
     def __getitem__(self, key: str) -> Path:
         return getattr(self, key)
