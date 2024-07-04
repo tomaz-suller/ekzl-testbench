@@ -34,6 +34,8 @@ class EzklConfig:
 config_store = ConfigStore.instance()
 config_store.store(name="config", node=EzklConfig)
 
+log = logging.getLogger(__name__)
+
 
 async def main(cfg: EzklConfig) -> None:
     models = [
@@ -42,6 +44,8 @@ async def main(cfg: EzklConfig) -> None:
         if attributes.model_name in cfg.models
     ]
     for model in models:
+        log.info(f"Processing model {model.name}")
+
         if cfg.generate_calibration_data:
             with model.paths.calibration_data.open("w") as f:
                 json.dump(
