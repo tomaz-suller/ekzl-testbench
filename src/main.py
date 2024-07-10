@@ -8,6 +8,7 @@ from typing import Any, Union
 
 import hydra
 from hydra.core.config_store import ConfigStore
+from omegaconf import OmegaConf
 
 from model import Model, ModelAttributes, export
 from proof import calibrate_settings, generate_proof, verify_proof
@@ -70,7 +71,7 @@ async def main(cfg: EzklConfig) -> None:
 
         if cfg.calibrate:
             start = process_time_ns()
-            await calibrate_settings(model.paths, asdict(cfg.visibility))
+            await calibrate_settings(model.paths, OmegaConf.to_container(cfg.visibility))
             calibration_time = process_time_ns() - start
             metrics["calibration_time"] = calibration_time
         if cfg.generate:
