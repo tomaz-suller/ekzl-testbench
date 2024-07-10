@@ -20,10 +20,10 @@ class RunArguments:
 
 
 async def calibrate_settings(paths: ModelPaths, visibility: dict[str, str]):
-    visibility = {f"{key}_visbility": value for key, value in visibility.items()}
+    visibility = {f"{key}_visibility": value for key, value in visibility.items()}
     run_args = RunArguments(**visibility).to_ezkl()
 
-    ezkl.gen_settings(paths.onnx, paths.settings, run_args=run_args)
+    ezkl.gen_settings(paths.onnx, paths.settings, py_run_args=run_args)
 
 
     await ezkl.calibrate_settings(
