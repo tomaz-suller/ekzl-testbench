@@ -86,6 +86,7 @@ class Model:
                 self._model = Lenet5(self.polynomial)
             elif self.name == ModelAttributes.VGG11.model_name:
                 from torchvision.models import vgg11
+
                 self._model = vgg11()
             else:
                 raise ValueError(f"model '{self.name}' not supported")

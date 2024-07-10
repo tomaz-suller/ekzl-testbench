@@ -25,7 +25,6 @@ async def calibrate_settings(paths: ModelPaths, visibility: dict[str, str]):
 
     ezkl.gen_settings(paths.onnx, paths.settings, py_run_args=run_args)
 
-
     await ezkl.calibrate_settings(
         paths.calibration_data,
         paths.onnx,

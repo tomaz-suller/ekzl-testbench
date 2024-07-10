@@ -72,7 +72,9 @@ async def main(cfg: EzklConfig) -> None:
 
         if cfg.calibrate:
             start = process_time_ns()
-            await calibrate_settings(model.paths, OmegaConf.to_container(cfg.visibility))
+            await calibrate_settings(
+                model.paths, OmegaConf.to_container(cfg.visibility)
+            )
             calibration_time = process_time_ns() - start
             metrics["calibration_time"] = calibration_time
         if cfg.generate:
