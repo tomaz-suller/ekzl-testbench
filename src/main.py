@@ -25,6 +25,7 @@ class Visibility:
 @dataclass
 class EzklConfig:
     models: Union[list[str], None] = None
+    polynomial: bool = True
     visibility: Visibility = field(default_factory=Visibility)
     generate_calibration_data: bool = False
     generate_inference_data: bool = False
@@ -44,7 +45,7 @@ log = logging.getLogger(__name__)
 
 async def main(cfg: EzklConfig) -> None:
     models = [
-        Model(attributes.model_name, attributes.input_shape)
+        Model(attributes.model_name, attributes.input_shape, polynomial=cfg.polynomial)
         for attributes in ModelAttributes
         if cfg.models is None or attributes.model_name in cfg.models
     ]

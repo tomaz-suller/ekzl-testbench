@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field, InitVar
 from enum import Enum
+from functools import partial
 from pathlib import Path
 from typing import Optional, Union
 
@@ -64,6 +65,7 @@ class ModelPaths:
 class Model:
     name: str
     input_shape: tuple[int, ...]
+    polynomial: bool = True
     _model: Union[nn.Module, None] = field(default=None, init=False)
     paths: ModelPaths = field(init=False)
     root: InitVar[Union[Path, None]] = None
@@ -81,7 +83,7 @@ class Model:
             elif self.name == ModelAttributes.MNIST.model_name:
                 self._model = Mnist()
             elif self.name == ModelAttributes.LENET5.model_name:
-                self._model = Lenet5()
+                self._model = Lenet5(self.polynomial)
             elif self.name == ModelAttributes.VGG11.model_name:
                 from torchvision.models import vgg11
                 self._model = vgg11()
@@ -117,7 +119,7 @@ class SmallCnn(nn.Module):
         return x
 
 
-def polynomial_activation(x, a: float):
+def polynomial_activation(a: float, x):
     """https://arxiv.org/abs/2011.05530"""
     return x * x + a * x
 
@@ -136,12 +138,12 @@ class Mnist(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.conv1(x)
-        x = polynomial_activation(x, 1)
+        x = polynomial_activation(1, x)
         # SumPool: AvgPool multiplied by number of elements (4)
         x = self.pool(x) * 4
 
         x = self.conv2(x)
-        x = polynomial_activation(x, 1)
+        x = polynomial_activation(1, x)
         # SumPool: AvgPool multiplied by number of elements (4)
         x = self.pool(x) * 4
 
@@ -152,8 +154,14 @@ class Mnist(nn.Module):
 
 
 class Lenet5(nn.Module):
-    def __init__(self):
+    def __init__(self, polynomial=True):
         super().__init__()
+
+        if polynomial:
+            self.activation = partial(polynomial_activation, 1)
+        else:
+            self.activation = nn.functional.relu
+
         self.conv1 = nn.Conv2d(
             in_channels=ModelAttributes.LENET5.input_shape[0],
             out_channels=6,
@@ -170,11 +178,11 @@ class Lenet5(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         # Feature extraction
         x = self.conv1(x)
-        x = polynomial_activation(x, 1)
+        x = self.activation(x)
         x = self.pool(x)
 
         x = self.conv2(x)
-        x = polynomial_activation(x, 1)
+        x = self.activation(x)
         x = self.pool(x)
 
         x = x.flatten(start_dim=1)
