@@ -15,7 +15,7 @@ class ModelAttributes(Enum):
     SMALL_CNN = ("small_cnn", (1, 10, 10))
     MNIST = ("mnist", (1, 28, 28))
     LENET5 = ("lenet5", (1, 32, 32))
-    # VGG11 = ("vgg11", (224,224,3))
+    VGG11 = ("vgg11", (3, 224, 224))
 
     def __init__(self, name: str, shape: tuple[int, ...]) -> None:
         self.model_name = name
@@ -82,6 +82,9 @@ class Model:
                 self._model = Mnist()
             elif self.name == ModelAttributes.LENET5.model_name:
                 self._model = Lenet5()
+            elif self.name == ModelAttributes.VGG11.model_name:
+                from torchvision.models import vgg11
+                self._model = vgg11()
             else:
                 raise ValueError(f"model '{self.name}' not supported")
         return self._model
