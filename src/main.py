@@ -1,5 +1,5 @@
 import asyncio
-from dataclasses import dataclass, asdict, field
+from dataclasses import dataclass, field
 import json
 import logging
 from time import process_time_ns
