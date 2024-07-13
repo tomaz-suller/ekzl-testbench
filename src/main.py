@@ -29,14 +29,14 @@ class EzklConfig:
     models: Union[list[str], None] = None
     polynomial: bool = True
     visibility: Visibility = field(default_factory=Visibility)
-    generate_calibration_data: bool = False
-    generate_inference_data: bool = False
-    export: bool = False
-    calibrate: bool = False
+    generate_calibration_data: bool = True
+    generate_inference_data: bool = True
+    export: bool = True
+    calibrate: bool = True
     calibration_samples: int = 20
-    generate: bool = False
+    generate: bool = True
     inference_samples: int = 1
-    verify: bool = False
+    verify: bool = True
 
 
 config_store = ConfigStore.instance()
