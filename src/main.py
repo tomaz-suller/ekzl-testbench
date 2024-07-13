@@ -54,7 +54,10 @@ async def main(cfg: EzklConfig) -> None:
         if cfg.models is None or attributes.model_name in cfg.models
     ]
     for attributes in selected_model_attributes:
-        model = Model(attributes.model_name, attributes.input_shape, polynomial=cfg.polynomial)
+        torch.manual_seed(cfg.seed)
+        model = Model(
+            attributes.model_name, attributes.input_shape, polynomial=cfg.polynomial
+        )
         log.info(f"Processing model {model.name}")
         metrics: dict[str, Any] = {
             "run": cfg.run_name,
@@ -77,7 +80,9 @@ async def main(cfg: EzklConfig) -> None:
             if cfg[task_name]:
                 wall_start = time_ns()
                 process_start = process_time_ns()
-                await execute_task(task_name, model, OmegaConf.to_container(cfg.visibility))
+                await execute_task(
+                    task_name, model, OmegaConf.to_container(cfg.visibility)
+                )
                 metrics[f"{task_name}_wall_time"] = time_ns() - wall_start
                 metrics[f"{task_name}_process_time"] = process_time_ns() - process_start
 
