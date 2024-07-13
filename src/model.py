@@ -57,7 +57,7 @@ class ModelPaths:
         self.witness = output_dir / "witness.json"
         self.verifier_key = output_dir / "vk"
         self.proofer_key = output_dir / "pk"
-        self.proof = output_dir / "proof"
+        self.proof = output_dir / "proof.json"
         self.metrics = output_dir / "metrics.json"
 
     def __getitem__(self, key: str) -> Path:
