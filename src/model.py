@@ -70,7 +70,7 @@ class Model:
     input_shape: tuple[int, ...]
     polynomial: bool = True
     _model: Union[nn.Module, None] = field(default=None, init=False)
-    paths: ModelPaths = field(init=False)
+    paths: ModelPaths = field(init=False, repr=False)
     root: InitVar[Union[Path, None]] = None
 
     def __post_init__(self, root: Union[Path, None]):
