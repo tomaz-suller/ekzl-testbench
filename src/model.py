@@ -8,6 +8,9 @@ import torch
 import torch.nn as nn
 
 
+torch.manual_seed(0)
+
+
 REPO_ROOT = Path(__file__).absolute().parent.parent
 
 
