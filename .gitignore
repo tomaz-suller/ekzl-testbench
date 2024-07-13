@@ -3,6 +3,7 @@
 /models
 /output
 /outputs
+/multirun
 
 # Heaptrack output files
 heaptrack*
