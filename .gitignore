@@ -1,5 +1,8 @@
-*.json
-*.onnx
+# Experiment artifacts
+/data
+/models
+/output
+/outputs
 
 # Heaptrack output files
 heaptrack*
@@ -8,6 +11,7 @@ heaptrack*
 /outputs
 /multirun
 
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
