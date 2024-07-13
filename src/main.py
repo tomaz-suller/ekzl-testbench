@@ -10,6 +10,7 @@ from typing import Any, Union
 import hydra
 from hydra.core.config_store import ConfigStore
 from omegaconf import OmegaConf, MISSING
+import torch
 
 from model import Model, ModelAttributes, export
 from proof import calibrate_settings, generate_proof, verify_proof
@@ -26,6 +27,7 @@ class Visibility:
 @dataclass
 class EzklConfig:
     run_name: str = MISSING
+    seed: int = 0
     models: Union[list[str], None] = None
     polynomial: bool = True
     visibility: Visibility = field(default_factory=Visibility)
@@ -56,6 +58,7 @@ async def main(cfg: EzklConfig) -> None:
         log.info(f"Processing model {model.name}")
         metrics: dict[str, Any] = {
             "run": cfg.run_name,
+            "seed": cfg.seed,
             "timestamp": datetime.now().isoformat(),
         }
 
