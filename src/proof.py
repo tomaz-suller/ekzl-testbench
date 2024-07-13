@@ -50,13 +50,13 @@ async def generate_proof(paths: ModelPaths):
     ezkl.setup(
         paths.compiled_circuit,
         paths.verifier_key,
-        paths.prover_key,
+        paths.proofer_key,
     )
 
     ezkl.prove(
         paths.witness,
         paths.compiled_circuit,
-        paths.prover_key,
+        paths.proofer_key,
         paths.proof,
         "single",
     )

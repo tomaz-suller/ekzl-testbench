@@ -35,7 +35,7 @@ class ModelPaths:
     compiled_circuit: Path = field(init=False)
     witness: Path = field(init=False)
     verifier_key: Path = field(init=False)
-    prover_key: Path = field(init=False)
+    proofer_key: Path = field(init=False)
     proof: Path = field(init=False)
     metrics: Path = field(init=False)
 
@@ -53,7 +53,7 @@ class ModelPaths:
         self.compiled_circuit = output_dir / "compiled"
         self.witness = output_dir / "witness.json"
         self.verifier_key = output_dir / "vk"
-        self.prover_key = output_dir / "pk"
+        self.proofer_key = output_dir / "pk"
         self.proof = output_dir / "proof"
         self.metrics = output_dir / "metrics.json"
 
