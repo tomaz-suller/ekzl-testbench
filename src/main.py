@@ -91,6 +91,7 @@ async def main(cfg: EzklConfig) -> None:
         if cfg.generate:
             metrics["proofer_key_size"] = model.paths.proofer_key.stat().st_size
             metrics["verifier_key_size"] = model.paths.verifier_key.stat().st_size
+            metrics["witness_size"] = model.paths.witness.stat().st_size
             metrics["proof_size"] = model.paths.proof.stat().st_size
 
         metrics_path = model.paths.metrics
