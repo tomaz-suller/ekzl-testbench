@@ -9,5 +9,7 @@ keras
 torchinfo
 # Jupyter notebooks
 ipykernel
+pandas
+seaborn
 # Configuration management
 hydra-core
