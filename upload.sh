@@ -9,4 +9,3 @@ rsync \
     --exclude-from='.gitignore' \
     . \
     se2:~/ezkl
-

@@ -12,4 +12,3 @@ rsync \
     se2:~/ezkl/output \
     se2:~/ezkl/outputs \
     .
-
