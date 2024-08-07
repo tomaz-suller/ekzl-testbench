@@ -29,7 +29,7 @@ async def calibrate_settings(paths: ModelPaths, visibility: dict[str, str]):
         paths.calibration_data,
         paths.onnx,
         paths.settings,
-        "resources",
+        "accuracy",
     )
 
 
