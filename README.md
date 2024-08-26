@@ -17,7 +17,7 @@ Details on important settings are provided below.
 ### `model`
 Controls which neural network model is used for proof generation and verification.
 It accepts a list of strings, corresponding to the names of the models to be used.
-For a list of supported models, see [`models.py`](src/models.py). 
+For a list of supported models, see [`model.py`](src/model.py). 
 If left unspecified (default), all models will be used.
 
 [^1]: Cerioli, L.: A survey on Zero Knowledge proofs and their applications on machine
